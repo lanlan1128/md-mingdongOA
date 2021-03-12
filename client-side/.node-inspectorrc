@@ -1,0 +1,4 @@
+{
+	"web-port": 8088,
+	"debug-port": 5858
+}

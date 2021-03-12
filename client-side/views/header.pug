@@ -1,0 +1,15 @@
+header#header
+  div.top
+    div.top_content.clearfix
+      img.logo(src="/images/login-logo.png")
+      div.account
+        span.account_con= (nickname ? nickname.substring(0,1) : '')
+        div.top_arrow.dsn
+          div.input_css
+            input.account_name(id="operid",value=nickname)
+            div.inputshort_transition
+          p.account_btn.clearfix
+            a.exit.fr(href="/logout") 退出
+block script
+  script(src='/lib/jquery/v1.12.4/jquery.min.js')
+  script(src="/javascripts/header.js")

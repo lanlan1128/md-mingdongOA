@@ -1,0 +1,111 @@
+extends layout
+
+block css
+  link(rel='stylesheet',type='text/css',href='/lib/datepicker/datepicker.css')
+  link(rel='stylesheet', href='/stylesheets/newzb.css')
+
+block content
+  include header
+
+  div#a(value=rptites)
+  div#b(value=projects)
+  div#e(value=prt)
+  div#q(value=prtid)
+  
+  div.body
+    div.page-main.clearfix
+      div.sidebar
+        ul
+          li 
+            a.menu 周报
+            ul.menu_ul
+              li.menu_li 
+                a(href="/zbList") 列表
+              li.sidebar_li 
+                a.aChecked(href="/newzb") 新增
+
+
+      div.content
+        p.title 项目周报
+        div.list_top.clerfix
+          div.fl.zb_date
+            label 日期：
+            if prt
+              if prt.prtdate
+                input#prtdata.datepicker.datepic.date_long(value=prt.prtdate,disabled="disabled",style="'cursor','not-allowed'")
+                span#ClearBtn.qingkong 清空
+            else
+              input#prtdata.datepicker.datepic.date_long
+              span#ClearBtn.curPoin.qingkong 清空
+
+          div.fl.project
+            label 项目：
+           
+            select#project.curPoin.project_select(disabled= prt ? "disabled" : " ")
+              if prt
+                each value, index in projects
+                  if value.projectid&&prt.prtname&&value.projectname==prt.prtname.substring(0, prt.prtname.indexOf('-'))
+                    option(value=value.projectid,selected="selected")= value.projectname
+                  else 
+                    option(value=value.projectid)= value.projectname
+              else
+                option 请选择项目
+                each value, index in projects
+                  option(value=value.projectid)= value.projectname
+              
+
+          div.submitDiv
+            button.fr.button1.submitBtn(onclick="submit()") 提交
+            div.submitHint.dsn 提交后管理员才能看到你的周报
+          button#previewBtn.fr.button1 预览
+          button.fr.button1.dsn 保存          
+
+        each value, index in rptites
+          div.item
+               div.item_title(id=value.rptitemcode)
+                 div.zedie
+                   i.arrow-icon.iconfont.icon-up-arrow
+                   p.item_title_p
+                    span.order= index+1
+                    span.name= "." + value.rptitemname
+                   if value.isrequire_E.isrequire == 'Y'
+                    div.hint1
+                      i.mark-icon.iconfont.icon-asterisks-1-copy-copy-copy
+                      div.hint_content1.dsn
+                        p.hint_p1 这是必填项，如果没有内容请填写无 
+                       
+               div.item_con
+                 div.add_row
+                   textarea.txt_long(wrap="hard",tabindex=index+1)
+
+                   
+                   button.addBtn.button2(type="button") 添加
+                   button.changeBtn.button2.dsn(type="button") 修改
+                   p.keyHint Enter换行、tab键缩进、shift+enter触发添加修改按钮
+
+                 ol.sortable.item_content
+                   if prt
+                      each v,dex in prt.prtitArr
+                        if value.rptitemcode == v.rptitemcode
+                          each val, ind in v.prtcontentList
+                            li.item_content_row.clearfix(id=val.prtcontentid)
+                              span.order.fl= "(" + (ind+1) + ") "
+                              div.order_con.fl
+                                pre.item_content_p!=val.prtcontentdescr
+                                span.amend-icon
+                                  i.iconfont.icon-amend
+                                span.dele-icon
+                                  i.iconfont.icon-trash
+          
+  if prtid
+    input#zb_id(type="hidden",value=prtid)
+  else
+    input#zb_id(type="hidden",value="")
+block script
+  script(src="/lib/datepicker/datepicker.js")
+  script(src="/lib/datepicker/datepicker.zh-CN.js")
+  script(src="/javascripts/newzb.js")
+  
+    
+            
+

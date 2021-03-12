@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title= title
+
+    link(rel='stylesheet', href='/stylesheets/base.css') 
+    link(rel='stylesheet',type='text/css',href='/stylesheets/newzb.css')
+  body.body_minWidth
+    div#q(value=prt)         
+    div.pre
+      p.title 项目周报
+      div.pretop.clearfix
+        div.fl.preLine
+          span 日期：
+            span= prt.prtdate.substring(0,10)
+        div.fl.preLine
+          span 项目：
+          span= prt.projectname
+        div.fl.preLine
+          span 姓名：
+          span= prt.nickname
+      each value, index in prt.prtitArr
+        div.preItem
+          p.preItem_title= index+1 + "." + value.rptitemname
+          ul.preItem_content
+            each val, i in value.prtcontentList
+              li.item_content_row1.pos_relative
+                span.order.pos_span= "(" + (i+1) + ") "
+                div.pre_width
+                  pre.item_content_p=val.prtcontentdescr
+
+
+
+     
+            

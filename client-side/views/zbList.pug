@@ -1,0 +1,63 @@
+extends layout
+
+block css
+  link(rel='stylesheet',type='text/css',href='/lib/datepicker/datepicker.css')
+  link(rel='stylesheet', href='/stylesheets/newzb.css')
+  
+block content
+    include header
+
+    div.body.dsn
+      div.page-main.clearfix
+        div.sidebar
+          ul
+            li 
+              a.menu 周报
+              ul.menu_ul
+                li.menu_li 
+                  a.aChecked(href="zbList") 列表
+                li.sidebar_li 
+                  a(href="newzb") 新增
+
+        div.content.content_height
+          div.list_top.list_top_right.clearfix
+            if rolecode == 'A'
+              div.numbers
+                label 成员：
+                select#numbers.numbers_select
+                   option(value="all") 全部
+                   each value, index in operList || []
+                    option(value=value.operid)= value.namecn
+            div.project
+              label 项目：
+              select#project.project_select.curPoin
+                option 全部
+                each value, index in projectList || []
+                  option(value=value.projectid )= value.projectname
+            div.date
+              label 日期： 
+              input#start.datepic.date_long(data-toggle="datepicker")
+              span#startClearBtn.qingkong.curPoin 清空
+              label.zhi 至
+              input#end.datepic.date_long(data-toggle="datepicker")
+              span#endClearBtn.qingkong.curPoin 清空
+            button.fr.button1.submitBtn(onclick="query()" type="button") 查询 
+          div.reminder
+          ul.listCss#prtList
+          div.bottomBtn.dsn
+            input#zbcheckAll.fl(type="checkbox")
+            label.fl.zbName.checkAll(for="zbcheckAll") 全选
+            button.downloadBtn(type="button") 批量下载周报
+          form#down-form(method="post" action="/batchExportPrtByPrtdate")
+             div.listarr
+              
+             input.downDate(type="hidden",name="prtdate")
+             
+    
+     
+            
+
+block script
+  script(src="/lib/datepicker/datepicker.js")
+  script(src="/lib/datepicker/datepicker.zh-CN.js")
+  script(src="/javascripts/zbList.js")

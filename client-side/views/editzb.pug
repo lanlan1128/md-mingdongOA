@@ -1,0 +1,95 @@
+
+extends header
+
+block content
+    div.body
+      div.content.clearfix
+        div.content1
+          p.sidebar 周 报
+          ul.sidebar_ul
+            li.sidebar_li 
+              a(href="zbList") 列表
+            li.sidebar_li 
+              a(href="newzb") 新增
+
+
+        div.content2
+          p.title 项目周报
+          -var edit={top:{editdate:'2017-05-24',id:'ui'},content:[{editTitle:'已完成工作',editHint:'分条描述本周已经完成的各项工作及完成的具体情况',editHintRed:'',editArry:[{a:'java工作'},{a:'前端工作'},{a:'工作的工作的工作'}]},{editTitle:'未完成的工作及进度情况',editHint:'分条描述未完成的工作，目前的进度情况和待办事项；如果没有可写无',editHintRed:'',editArry:[{a:'java工作'},{a:'前端工作'},{a:'工作的工作的工作'}]},{editTitle:'项目中的困难或问题',editHint:'描述在工作中的困难、未能解决的问题等；如果没有可写无',editHintRed:'',editArry:[{a:'java工作fgg'}]},{editTitle:'下周工作计划',editHint:'分条描述下周的工作计划，包含工作事项和拟完成时间',editHintRed:'',editArry:[{a:'无'}]},{editTitle:'日常跟进或暂缓事项',editHint:'在项目或工作过程中，会有部分暂缓处理或者只需要日常保持跟进的事项，为避免工作跟丢的',editHintRed:'',editArry:[{a:'无'}]},{editTitle:'客户新增需求、意向性沟通、问题反馈、预约会议等',editHint:'在项目实施中，客户会有一些新增需求，意向性的沟通，系统问题或功能的反馈，预约相关的会议等沟通，需要做好这些沟通事项的搜集、汇总和回复；分条列出这些工作的具体情况，相关沟通人，完成时间等',editHintRed:'在实际工作过程中，遇到这些方面的沟通，尽量在当天整理相关的内容，邮件发回公司，增加事情处理的时效性',editArry:[{a:'无'}]},{editTitle:'系统BUG或问题反馈',editHint:'',editHintRed:'',editArry:[{a:'无'}]},{editTitle:'预约会议',editHint:'',editHintRed:'',editArry:[{a:'无'}]}]}
+          div.clearfix
+            div.fl.zb_date
+              label 日期： 
+              input#date.laydate-icon.txt_short(value=edit.top.editdate)
+            div.fl.project
+              label 项目：
+              - var project = [{d:'qing',con:'请选择项目'},{d:'ui',con:'UI前端'},{d:'md1',con:'Mingdong1.5'},{d:'md2',con:'Mingdong2.0'},{d:'bm',con:'BeaconInvest_Metrics'},{d:'mdrc',con:'明动日程'},{d:'mdzcpt',con:'明动支持平台'},{d:'wh',con:'外汇交易中心系统接入'}]
+              select#project.project_select
+                each value, index in project
+                  option(selected= value.d==edit.top.id ? "selected":null)= value.con
+                
+
+            button.fr.button1(onclick="save()") 保存
+            button.fr.button1(onclick="submit()") 提交
+            button#previewBtn.fr.button1 预览
+
+          
+          
+          div
+          each v, index in edit.content
+            div.item
+              div.item_title.clearfix
+                i.fl.arrow-icon.iconfont.icon-up-arrow
+                p.fl.item_title_p= index+1 + "." + v.editTitle
+                div.hint1.fl
+                  i.fl.mark-icon.iconfont.icon-exclamation-mark
+                  div.hint_content1.dsn
+                    p.hint_p1= v.editHint
+                    p.hint_p2= v.editHintRed
+              div.item_con
+                div.clearfix.add_row
+                  input.txt_long#input
+                  button.addBtn.button2 添加
+                  button.changeBtn.button2.dsn 修改
+                
+                ol.item_content
+                  each val, i in v.editArry
+                    li.item_content_row
+                      p.item_content_p= val.a
+                      span.amend-icon
+                        i.iconfont.icon-amend
+                      span.dele-icon
+                        i.iconfont.icon-trash
+
+
+        
+    -var prenode= {top:{zbdate:'2017-05-24',zbproject:'UI前端',zbuser:'邱梦兰'},content:[{preTitle:'已完成工作',preArry:[{a:'java工作'},{a:'前端工作'},{a:'工作的工作的工作'}]},{preTitle:'未完成的工作及进度情况',preArry:[{a:'java工作'},{a:'前端工作'},{a:'工作的工作的工作'}]},{preTitle:'项目中的困难或问题',preArry:[{a:'java工作fgg'}]},{preTitle:'下周工作计划',preArry:[{a:'无'}]},{preTitle:'日常跟进或暂缓事项',preArry:[{a:'无'}]},{preTitle:'客户新增需求、意向性沟通、问题反馈、预约会议等',preArry:[{a:'无'}]},{preTitle:'系统BUG或问题反馈',preArry:[{a:'无'}]},{preTitle:'预约会议',preArry:[{a:'无'}]}]}           
+    div#preId.pre.dsn 
+      p.title 项目周报
+      div.pretop.clearfix
+        div.fl.preLine
+          span 日期： 
+          span= prenode.top.zbdate
+        div.fl.preLine
+          span 项目：
+          span= prenode.top.zbproject
+        div.fl.preLine
+          span 姓名：
+          span= prenode.top.zbuser
+      each value, index in prenode.content
+        div.preItem
+          p.preItem_title= index+1 + "." + value.preTitle
+        
+          ul.preItem_content
+            each val, i in value.preArry
+            
+              li.item_content_row1
+                span= "(" + (i+1) + ")"+"." + val.a
+           
+
+    input#zb_id(type="hidden",value="")
+
+block script
+    script(src="javascripts/editzb.js")
+  
+            
+
